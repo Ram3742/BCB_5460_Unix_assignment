@@ -53,7 +53,7 @@ awk '$2 ~ /7/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr7_decrease.
 awk '$2 ~ /8/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr8_decrease.txt && sort -k3,3n maize_chr8_decrease.txt > maize_chr_8_increase.txt
 awk '$2 ~ /9/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr9_decrease.txt && sort -k3,3n maize_chr9_decrease.txt > maize_chr_9_increase.txt
 awk '$2 ~ /10/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr10_decrease.txt && sort -k3,3n maize_chr10_decrease.txt > maize_chr_10_increase.txt
-8. Extracting SNP's for chromosomes and sorting in descending na dincreasing order of teosinte
+8. Extracting SNP's for chromosomes and sorting in descending and increasing order of teosinte
 awk '$2 ~ /1/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr1_decrease.txt && sort -k3,3n teosinte_chr1_decrease.txt > teosinte_chr1_increase.txt
 awk '$2 ~ /2/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr2_decrease.txt && sort -k3,3n teosinte_chr2_decrease.txt > teosinte_chr2_increase.txt
 awk '$2 ~ /3/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr3_decrease.txt && sort -k3,3n teosinte_chr3_decrease.txt > teosinte_chr3_increase.txt
@@ -64,6 +64,13 @@ awk '$2 ~ /7/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr7_dec
 awk '$2 ~ /8/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr8_decrease.txt && sort -k3,3n teosinte_chr8_decrease.txt > teosinte_chr8_increase.txt
 awk '$2 ~ /9/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr9_decrease.txt && sort -k3,3n teosinte_chr9_decrease.txt > teosinte_chr9_increase.txt
 awk '$2 ~ /10/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr10_decrease.txt && sort -k3,3n teosinte_chr10_decrease.txt > teosinte_chr10_increase.txt
+To modify ?/? to ? in increase files and ?/? to - in decrease files
+for file in *chr*_increase.txt; do
+    sed -i 's|?/?|?|g' "$file"
+done
+for file in *chr*_decrease.txt; do
+    sed -i 's|?/?|-|g' "$file"
+done
 
 
 
