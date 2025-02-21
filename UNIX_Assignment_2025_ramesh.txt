@@ -1,0 +1,72 @@
+#UNIX Assignment
+
+Inspection:
+
+fang_et_al_genotypes
+
+1. file size - 6.7 M
+Code : du -h fang_et_al_genotypes.txt
+2. no. of columns : 986 
+Code : awk '{print NF; exit}' fang_et_al_genotypes.txt
+3. no. of lines: 2783
+Code : wc -l fang_et_al_genotypes.txt
+
+SNP's
+
+1. file size: 49K
+Code: du -h snp_position.txt
+2. no. of columns : 15
+Code: awk '{print NF; exit}' snp_position.txt
+3. no. of lines : 984
+Code: wc -l snp_position.txt
+
+Data Processing:
+
+1. Extracting header line:to maize and teosinte genotypes txt files.
+   head -1 fang_et_al_genotypes.txt > maize_genotypes.txt
+   head -1 fang_et_al_genotypes.txt > teosinte_genotypes.txt
+2. Extracting genotypes data: by using ZMMIL,ZMMLR, and ZMMMR for maize, and ZMPBA, ZMPIL, and ZMPJA for teosinte genotypes txt files.
+   grep -E "(ZMMIL|ZMMLR|ZMMMR)" fang_et_al_genotypes.txt >> maize_genotypes.txt
+   grep -E "(ZMPBA|ZMPIL|ZMPJA)" fang_et_al_genotypes.txt >> teosinte_genotypes.txt
+3. Removing unnecessary columns: from maize and teosinte files and forming into groups. Extracting SNP ID, chromosome and position into new snp file
+   cut -f 3-986 maize_genotypes.txt > maize_group_genotypes.txt
+   cut -f 3-986 teosinte_genotypes.txt > teosinte_group_genotypes.txt
+   cut -f 1,3,4 snp_position.txt > cut_snp_position.txt
+4. Transposing genotypes data: 
+   awk -f transpose.awk maize_group_genotypes.txt > maize_transposed_genotypes.txt
+   awk -f transpose.awk teosinte_group_genotypes.txt > teosinte_transposed_genotypes.txt
+5. Sorting SNP position and transposed genotypes by SNP ID
+   sort -k1,1 cut_snp_position.txt > sorted_cut_snp_position.txt
+   sort -k1,1 maize_transposed_genotypes.txt > maize_sorted_transposed_group_genotype.txt
+   sort -k1,1 teosinte_transposed_genotypes.txt > teosinte_sorted_transposed_group_genotypes.txt
+6. Merging(joining) SNP's position with genotypes
+   join -1 1 -2 1 -t $'\t' sorted_cut_snp_position.txt maize_sorted_transposed_group_genotype.txt > maize_snp_group.txt
+   join -1 1 -2 1 -t $'\t' sorted_cut_snp_position.txt teosinte_sorted_transposed_group_genotypes.txt > teosinte_snp_group.txt
+7. Extracting SNP's for chromosomes and sorting in descending na dincreasing order of maize
+awk '$2 ~ /1/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr1_decrease.txt && sort -k3,3n maize_chr1_decrease.txt > maize_chr_1_increase.txt
+awk '$2 ~ /2/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr2_decrease.txt && sort -k3,3n maize_chr2_decrease.txt > maize_chr_2_increase.txt
+awk '$2 ~ /3/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr3_decrease.txt && sort -k3,3n maize_chr3_decrease.txt > maize_chr_3_increase.txt
+awk '$2 ~ /4/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr4_decrease.txt && sort -k3,3n maize_chr4_decrease.txt > maize_chr_4_increase.txt
+awk '$2 ~ /5/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr5_decrease.txt && sort -k3,3n maize_chr5_decrease.txt > maize_chr_5_increase.txt
+awk '$2 ~ /6/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr6_decrease.txt && sort -k3,3n maize_chr6_decrease.txt > maize_chr_6_increase.txt
+awk '$2 ~ /7/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr7_decrease.txt && sort -k3,3n maize_chr7_decrease.txt > maize_chr_7_increase.txt
+awk '$2 ~ /8/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr8_decrease.txt && sort -k3,3n maize_chr8_decrease.txt > maize_chr_8_increase.txt
+awk '$2 ~ /9/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr9_decrease.txt && sort -k3,3n maize_chr9_decrease.txt > maize_chr_9_increase.txt
+awk '$2 ~ /10/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr10_decrease.txt && sort -k3,3n maize_chr10_decrease.txt > maize_chr_10_increase.txt
+8. Extracting SNP's for chromosomes and sorting in descending na dincreasing order of teosinte
+awk '$2 ~ /1/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr1_decrease.txt && sort -k3,3n teosinte_chr1_decrease.txt > teosinte_chr1_increase.txt
+awk '$2 ~ /2/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr2_decrease.txt && sort -k3,3n teosinte_chr2_decrease.txt > teosinte_chr2_increase.txt
+awk '$2 ~ /3/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr3_decrease.txt && sort -k3,3n teosinte_chr3_decrease.txt > teosinte_chr3_increase.txt
+awk '$2 ~ /4/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr4_decrease.txt && sort -k3,3n teosinte_chr4_decrease.txt > teosinte_chr4_increase.txt
+awk '$2 ~ /5/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr5_decrease.txt && sort -k3,3n teosinte_chr5_decrease.txt > teosinte_chr5_increase.txt
+awk '$2 ~ /6/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr6_decrease.txt && sort -k3,3n teosinte_chr6_decrease.txt > teosinte_chr6_increase.txt
+awk '$2 ~ /7/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr7_decrease.txt && sort -k3,3n teosinte_chr7_decrease.txt > teosinte_chr7_increase.txt
+awk '$2 ~ /8/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr8_decrease.txt && sort -k3,3n teosinte_chr8_decrease.txt > teosinte_chr8_increase.txt
+awk '$2 ~ /9/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr9_decrease.txt && sort -k3,3n teosinte_chr9_decrease.txt > teosinte_chr9_increase.txt
+awk '$2 ~ /10/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr10_decrease.txt && sort -k3,3n teosinte_chr10_decrease.txt > teosinte_chr10_increase.txt
+
+
+
+
+
+
