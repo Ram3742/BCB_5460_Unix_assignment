@@ -71,8 +71,12 @@ done
 for file in *chr*_decrease.txt; do
     sed -i 's|?/?|-|g' "$file"
 done
-
-
+multiple and Unknown Maize
+awk '$2 ~ /multiple/ {print}' maize_snp_group.txt | sort -k3,3nr > maize_chr_multiple_decrease.txt && sort -k3,3n maize_chr_multiple_decrease.txt > maize_chr_multiple_increase.txt
+awk '$2 ~ /unknown/ {print}' maize_snp_group.txt | sort -k3,3n > maize_chr_unknown_decrease.txt && sort -k3,3n maize_chr_unknown_decrease.txt > maize_chr_unkwnown_increase.txt
+Multiple and Unknown Teosinte
+awk '$2 ~ /multiple/ {print}' teosinte_snp_group.txt | sort -k3,3nr > teosinte_chr_multiple_decrease.txt && sort -k3,3n teosinte_chr_multiple_decrease.txt > teosinte_chr_multiple_increase.txt
+awk '$2 ~ /unknown/ {print}' teosinte_snp_group.txt | sort -k3,3n > teosinte_chr_unknown_decrease.txt && sort -k3,3n maize_chr_unknown_decrease.txt > teosinte_chr_unkwnown_increase.txt
 
 
 
